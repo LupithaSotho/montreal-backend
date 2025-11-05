@@ -15,10 +15,8 @@ SECRET_KEY = config('SECRET_KEY', default='clave-secreta-de-desarrollo')
 
 DEBUG = config('DEBUG', default=True, cast=bool)
 
-ALLOWED_HOSTS = config(
-    'ALLOWED_HOSTS',
-    default='.up.railway.app,localhost,127.0.0.1'
-).split(',')
+# Permite acceso desde Railway, GitHub Pages y entorno local
+ALLOWED_HOSTS = ['*']  # Simplificado para evitar bloqueos en Railway
 
 # =========================
 # APLICACIONES INSTALADAS
@@ -85,9 +83,7 @@ CORS_ALLOWED_ORIGINS = [
     "https://lupithasotho.github.io",  # ✅ solo dominio, sin ruta
 ]
 
-# ⚠️ Elimina CORS_ALLOW_ALL_ORIGINS, ya que anula la lista anterior
-# CORS_ALLOW_ALL_ORIGINS = True  ← ❌ no lo uses con CORS_ALLOWED_ORIGINS
-
+# ⚠️ No usar CORS_ALLOW_ALL_ORIGINS=True junto con la lista anterior
 CSRF_TRUSTED_ORIGINS = [
     "https://montreal-backend-production.up.railway.app",  # ✅ con https://
 ]
@@ -143,3 +139,8 @@ REST_FRAMEWORK = {
         'rest_framework.renderers.JSONRenderer',
     ],
 }
+
+# =========================
+# COMPATIBILIDAD CON RAILWAY (puerto dinámico)
+# =========================
+PORT = os.environ.get('PORT', '8000')

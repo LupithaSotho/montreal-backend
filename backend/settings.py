@@ -34,7 +34,8 @@ INSTALLED_APPS = [
 
     # Apps de terceros
     'rest_framework',
-    'corsheaders',  
+    'corsheaders',
+
     # Tus apps locales
     'core',
 ]
@@ -44,8 +45,8 @@ INSTALLED_APPS = [
 # =========================
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    "corsheaders.middleware.CorsMiddleware",
-    'whitenoise.middleware.WhiteNoiseMiddleware',  # 👉 para archivos estáticos en producción
+    'corsheaders.middleware.CorsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # para archivos estáticos
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -74,15 +75,22 @@ TEMPLATES = [
         },
     },
 ]
-CORS_ALLOWED_ORIGINS = [
-    "https://lupithasotho.github.io/montreal-atlacomulco/",  # 👈 Tu frontend en GitHub Pages
-]
-CORS_ALLOW_ALL_ORIGINS = True
-CSRF_TRUSTED_ORIGINS = [
-    "https://lupithasotho.github.io/montreal-atlacomulco/",
-    "montreal-backend-production.up.railway.app",  # tu backend
-]
+
 WSGI_APPLICATION = 'backend.wsgi.application'
+
+# =========================
+# CORS y CSRF CORREGIDOS 🚀
+# =========================
+CORS_ALLOWED_ORIGINS = [
+    "https://lupithasotho.github.io",  # ✅ solo dominio, sin ruta
+]
+
+# ⚠️ Elimina CORS_ALLOW_ALL_ORIGINS, ya que anula la lista anterior
+# CORS_ALLOW_ALL_ORIGINS = True  ← ❌ no lo uses con CORS_ALLOWED_ORIGINS
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://montreal-backend-production.up.railway.app",  # ✅ con https://
+]
 
 # =========================
 # BASE DE DATOS (Railway o local)
@@ -98,18 +106,10 @@ DATABASES = {
 # VALIDACIÓN DE CONTRASEÑAS
 # =========================
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
+    {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
 # =========================
@@ -125,8 +125,6 @@ USE_TZ = True
 # =========================
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-
-# 👉 para servir archivos estáticos correctamente en producción
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # =========================
@@ -135,7 +133,7 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # =========================
-# CONFIGURACIÓN REST FRAMEWORK (opcional)
+# CONFIGURACIÓN REST FRAMEWORK
 # =========================
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [

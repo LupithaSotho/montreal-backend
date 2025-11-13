@@ -6,8 +6,8 @@ class Curso(models.Model):
     duracion_horas = models.PositiveIntegerField(default=20)
     activo = models.BooleanField(default=True)
 
-    def __str__(self): return self.nombre
-
+    def __str__(self):
+        return self.nombre
 
 
 class Certificacion(models.Model):
@@ -16,12 +16,19 @@ class Certificacion(models.Model):
     folio = models.CharField(max_length=50, unique=True)
     fecha_emision = models.DateField()
 
-    def __str__(self): return self.folio
+    def __str__(self):
+        return self.folio
+
+
 class Inscripcion(models.Model):
-    nombre = models.CharField(max_length=100)
+    nombre = models.CharField(max_length=120)
     correo = models.EmailField()
-    curso = models.CharField(max_length=50)
+    telefono = models.CharField(max_length=20, default="")
+    edad = models.PositiveIntegerField(default=0)
+    curso = models.CharField(max_length=100)
     nivel = models.CharField(max_length=50)
+    fecha_inicio = models.DateField(null=True, blank=True)
+    nuevo_ingreso = models.BooleanField(default=True)
     comentarios = models.TextField(blank=True, null=True)
     fecha_registro = models.DateTimeField(auto_now_add=True)
 

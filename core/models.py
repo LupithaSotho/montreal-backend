@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class Curso(models.Model):
     nombre = models.CharField(max_length=120)
     descripcion = models.TextField(blank=True)
@@ -10,27 +11,28 @@ class Curso(models.Model):
         return self.nombre
 
 
+class Inscripcion(models.Model):
+    nombre = models.CharField(max_length=140)
+    correo = models.EmailField()
+    telefono = models.CharField(max_length=30)
+    edad = models.PositiveIntegerField()
+    curso = models.CharField(max_length=120)          # Texto: "Inglés", "Computación", etc.
+    nivel = models.CharField(max_length=120)          # Texto: "A2", "B1", etc.
+    fecha_inicio = models.DateField()
+    nuevo_ingreso = models.BooleanField(default=True)
+    comentarios = models.TextField(blank=True)
+
+    creado_en = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.nombre} - {self.curso} ({self.nivel})"
+
+
 class Certificacion(models.Model):
     alumno = models.CharField(max_length=140)
-    curso = models.ForeignKey(Curso, on_delete=models.CASCADE)
+    curso = models.ForeignKey(Curso, on_delete=models.CASCADE, related_name="certificaciones")
     folio = models.CharField(max_length=50, unique=True)
     fecha_emision = models.DateField()
 
     def __str__(self):
-        return self.folio
-
-
-class Inscripcion(models.Model):
-    nombre = models.CharField(max_length=120)
-    correo = models.EmailField()
-    telefono = models.CharField(max_length=20, default="")
-    edad = models.PositiveIntegerField(default=0)
-    curso = models.CharField(max_length=100)
-    nivel = models.CharField(max_length=50)
-    fecha_inicio = models.DateField(null=True, blank=True)
-    nuevo_ingreso = models.BooleanField(default=True)
-    comentarios = models.TextField(blank=True, null=True)
-    fecha_registro = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return f"{self.nombre} - {self.curso} ({self.nivel})"
+        return f"{self.alumno} - {self.folio}"

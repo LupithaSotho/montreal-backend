@@ -1,10 +1,7 @@
 from rest_framework import viewsets
 from .models import Curso, Inscripcion, Certificacion
-from .serializers import (
-    CursoSerializer,
-    InscripcionSerializer,
-    CertificacionSerializer,
-)
+from .serializers import CursoSerializer, InscripcionSerializer, CertificacionSerializer
+
 
 class CursoViewSet(viewsets.ModelViewSet):
     queryset = Curso.objects.all().order_by("nombre")
@@ -12,7 +9,7 @@ class CursoViewSet(viewsets.ModelViewSet):
 
 
 class InscripcionViewSet(viewsets.ModelViewSet):
-    queryset = Inscripcion.objects.all().order_by("-fecha_registro")
+    queryset = Inscripcion.objects.all().order_by("-creado_en")
     serializer_class = InscripcionSerializer
 
 

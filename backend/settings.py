@@ -80,15 +80,21 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # =========================
 # CORS y CSRF CORREGIDOS 🚀
 # =========================
-CORS_ALLOWED_ORIGINS = [
-    "https://montreal-atlacomulco.netlify.app", 
-    "https://lupithasotho.github.io",
-]  
+CORS_ALLOW_ALL_ORIGINS = False
 
-# ⚠️ No usar CORS_ALLOW_ALL_ORIGINS=True junto con la lista anterior
-CSRF_TRUSTED_ORIGINS = [
-    "https://montreal-backend-production-def9.up.railway.app",  # ✅ con https://
+CORS_ALLOWED_ORIGINS = [
+    "https://cute-begonia-bd901b.netlify.app",
+    "https://montreal-atlacomulco.netlify.app",
+    "https://lupithasotho.github.io",
 ]
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://montreal-backend-production-def9.up.railway.app",
+    "https://cute-begonia-bd901b.netlify.app",
+    "https://montreal-atlacomulco.netlify.app",
+    "https://lupithasotho.github.io",
+]
+
 # =========================
 # BASE DE DATOS (Railway o local)
 # =========================

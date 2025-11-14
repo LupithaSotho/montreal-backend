@@ -87,7 +87,7 @@ CORS_ALLOWED_ORIGINS = [
 
 # ⚠️ No usar CORS_ALLOW_ALL_ORIGINS=True junto con la lista anterior
 CSRF_TRUSTED_ORIGINS = [
-    "https://montreal-backend-production.up.railway.app",  # ✅ con https://
+    "https://montreal-backend-production-def9.up.railway.app",  # ✅ con https://
 ]
 # =========================
 # BASE DE DATOS (Railway o local)

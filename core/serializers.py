@@ -14,6 +14,19 @@ class InscripcionSerializer(serializers.ModelSerializer):
 
 
 class CertificacionSerializer(serializers.ModelSerializer):
+    # Recibe solo el ID del curso
+    curso = serializers.PrimaryKeyRelatedField(queryset=Curso.objects.all())
+
+    # Devuelve el nombre del curso
+    curso_nombre = serializers.CharField(source="curso.nombre", read_only=True)
+
     class Meta:
         model = Certificacion
-        fields = "__all__"
+        fields = [
+            "id",
+            "alumno",
+            "curso",
+            "curso_nombre",
+            "folio",
+            "fecha_emision",
+        ]

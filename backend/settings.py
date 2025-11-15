@@ -96,7 +96,7 @@ else:
         "default": dj_database_url.parse(
             config("MYSQL_PUBLIC_URL"),
             conn_max_age=600,
-            ssl_require=False,  # Railway MySQL NO usa SSL
+            ssl_require=True
         )
     }
 

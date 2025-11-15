@@ -15,10 +15,7 @@ class InscripcionSerializer(serializers.ModelSerializer):
 
 
 class CertificacionSerializer(serializers.ModelSerializer):
-<<<<<<< HEAD
-=======
-    # Para que el frontend pueda usar c.curso_nombre
->>>>>>> a77a73ddba28b1b60b4ed6555f873c74ffe13654
+    # Campo adicional útil para el frontend
     curso_nombre = serializers.CharField(source="curso.nombre", read_only=True)
 
     class Meta:

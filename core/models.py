@@ -16,15 +16,11 @@ class Inscripcion(models.Model):
     correo = models.EmailField()
     telefono = models.CharField(max_length=30)
     edad = models.PositiveIntegerField()
-<<<<<<< HEAD
 
-    curso = models.CharField(max_length=120)      # Texto: “Inglés”
-    nivel = models.CharField(max_length=120)      # Texto: “A2, B1...”
-
-=======
+    # Campos corregidos (texto libre para curso y nivel)
     curso = models.CharField(max_length=120)          # Texto: "Inglés", "Computación", etc.
     nivel = models.CharField(max_length=120)          # Texto: "A2", "B1", etc.
->>>>>>> a77a73ddba28b1b60b4ed6555f873c74ffe13654
+
     fecha_inicio = models.DateField()
     nuevo_ingreso = models.BooleanField(default=True)
     comentarios = models.TextField(blank=True)
@@ -32,11 +28,7 @@ class Inscripcion(models.Model):
     creado_en = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-<<<<<<< HEAD
-        return f"{self.nombre} - {self.curso}"
-=======
         return f"{self.nombre} - {self.curso} ({self.nivel})"
->>>>>>> a77a73ddba28b1b60b4ed6555f873c74ffe13654
 
 
 class Certificacion(models.Model):

@@ -1,14 +1,26 @@
 import os
 from pathlib import Path
-import dj_database_url
 from decouple import config
+import dj_database_url
 
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# --------------------------
+# SECURITY
+# --------------------------
 
 SECRET_KEY = config("SECRET_KEY", default="dev-key")
 DEBUG = config("DEBUG", default=True, cast=bool)
 
-ALLOWED_HOSTS = ["*", "montreal-backend-production-def9.up.railway.app"]
+ALLOWED_HOSTS = [
+    "127.0.0.1",
+    "localhost",
+    "montreal-backend-production-def9.up.railway.app",
+]
+
+# --------------------------
+# APPS
+# --------------------------
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -20,13 +32,19 @@ INSTALLED_APPS = [
 
     "rest_framework",
     "corsheaders",
+
     "core",
 ]
+
+# --------------------------
+# MIDDLEWARE (ORDEN CORRECTO)
+# --------------------------
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "corsheaders.middleware.CorsMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
+
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -37,23 +55,73 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = "backend.urls"
 
+# --------------------------
+# TEMPLATES
+# --------------------------
+
+TEMPLATES = [
+    {
+        "BACKEND": "django.template.backends.django.DjangoTemplates",
+        "DIRS": [BASE_DIR / "templates"],
+        "APP_DIRS": True,
+        "OPTIONS": {
+            "context_processors": [
+                "django.template.context_processors.debug",
+                "django.template.context_processors.request",
+                "django.contrib.auth.context_processors.auth",
+                "django.contrib.messages.context_processors.messages",
+            ],
+        },
+    },
+]
+
 WSGI_APPLICATION = "backend.wsgi.application"
+
+# --------------------------
+# DATABASE
+# --------------------------
+
+if DEBUG:
+    # Usar SQLite en local
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
+    }
+
+else:
+    # PRODUCCIÓN Railway → MySQL
+    DATABASES = {
+        "default": dj_database_url.parse(
+            config("MYSQL_PUBLIC_URL"),
+            conn_max_age=600,
+            ssl_require=False,  # Railway MySQL NO usa SSL
+        )
+    }
+
+# --------------------------
+# CORS / CSRF (COMPLETO)
+# --------------------------
 
 CORS_ALLOWED_ORIGINS = [
     "https://lupithasotho.github.io",
     "https://montreal-atlacomulco.netlify.app",
 ]
 
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_HEADERS = ["*"]
+CORS_ALLOW_METHODS = ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"]
+
 CSRF_TRUSTED_ORIGINS = [
     "https://montreal-backend-production-def9.up.railway.app",
+    "https://lupithasotho.github.io",
+    "https://montreal-atlacomulco.netlify.app",
 ]
 
-DATABASES = {
-    "default": dj_database_url.config(
-        default=config("DATABASE_URL", default=f"sqlite:///{BASE_DIR}/db.sqlite3"),
-        conn_max_age=600,
-    )
-}
+# --------------------------
+# STATIC FILES
+# --------------------------
 
 STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"

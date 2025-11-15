@@ -81,8 +81,12 @@ WSGI_APPLICATION = "backend.wsgi.application"
 # DATABASE
 # --------------------------
 
+# --------------------------
+# DATABASE
+# --------------------------
+
 if DEBUG:
-    # Usar SQLite en local
+    # Usar SQLite solo en local
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.sqlite3",
@@ -91,14 +95,15 @@ if DEBUG:
     }
 
 else:
-    # PRODUCCIÓN Railway → MySQL
+    # Usar MySQL en producción Railway
     DATABASES = {
         "default": dj_database_url.parse(
-            config("MYSQL_PUBLIC_URL"),
+            config("DATABASE_URL"),   # 👈 ESTE ES EL BUENO
             conn_max_age=600,
-            ssl_require=True
+            ssl_require=False
         )
     }
+
 
 # --------------------------
 # CORS / CSRF (COMPLETO)
